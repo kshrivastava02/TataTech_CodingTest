@@ -1,0 +1,31 @@
+UML diagram in PlantUML:
+
+@startuml
+class Frame {
+  - rolls : vector<int>
+  + addRoll(int)
+  + getScore() : int
+  + isStrike() : bool
+  + isSpare() : bool
+  + isComplete() : bool
+}
+
+class Player {
+  - name : string
+  - frames : vector<Frame>
+  + roll(int)
+  + getTotalScore() : int
+  + getName() : string
+}
+
+class BowlingGame {
+  - players : map<string, Player>
+  + addPlayer(string)
+  + roll(string, int)
+  + getScore(string) : int
+  + displayScores()
+}
+
+Frame --> Player
+Player --> BowlingGame
+@enduml
