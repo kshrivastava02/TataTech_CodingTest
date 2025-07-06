@@ -27,14 +27,18 @@ TEST(BowlingGameTest, AllOnes) {
 // Test 3: One spare followed by 3
 TEST(BowlingGameTest, OneSpare) {
     BowlingGame game;
-    rollMany(game, "Spare", {5, 5, 3} + std::vector<int>(17, 0));
+    std::vector<int> rolls = {5, 5, 3};
+    rolls.insert(rolls.end(), 17, 0);  // append 17 zeros
+    rollMany(game, "Spare", rolls);
     EXPECT_EQ(game.getScore("Spare"), 16);
 }
 
 // Test 4: One strike followed by 3 and 4
 TEST(BowlingGameTest, OneStrike) {
     BowlingGame game;
-    rollMany(game, "Strike", {10, 3, 4} + std::vector<int>(16, 0));
+    std::vector<int> rolls = {10, 3, 4};
+    rolls.insert(rolls.end(), 16, 0);  // append 16 zeros
+    rollMany(game, "Strike", rolls);
     EXPECT_EQ(game.getScore("Strike"), 24);
 }
 
