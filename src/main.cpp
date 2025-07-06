@@ -19,9 +19,14 @@ int main() {
         while (frame <= 10) {
             std::cout << "\nFrame " << frame << std::endl;
 
-            int first, second = 0, third = 0;
-            std::cout << "Enter first roll: ";
-            std::cin >> first;
+            int first = 0, second = 0, third = 0;
+            do {
+                if (first <= 10)
+                    std::cout << "Enter first roll: ";
+                else
+                    std::cout << "Invalid Input! Number of pins cannot exceed 10.\nEnter first roll: ";
+                std::cin >> first;
+            } while (first > 10);
             game.roll(playerName, first);
             rollCount++;
 
@@ -29,17 +34,26 @@ int main() {
                 if (first == 10) {
                     std::cout << "Strike! Moving to next frame." << std::endl;
                 } else {
-                    std::cout << "Enter second roll: ";
-                    std::cin >> second;
+                    do {
+                        if ((first + second) <= 10)
+                            std::cout << "Enter second roll: ";
+                        else
+                            std::cout << "Total sum of a frame cannot be more than 10.\nEnter second roll: ";
+                        std::cin >> second;
+                    } while((first + second) > 10);
                     game.roll(playerName, second);
                     rollCount++;
                 }
             } else {
                 // 10th frame logic
-                std::cout << "Enter second roll: ";
-                std::cin >> second;
-                game.roll(playerName, second);
-                rollCount++;
+                if (first == 10) {
+                    std::cout << "Strike! Moving to the bonus roll!\n";
+                } else {
+                    std::cout << "Enter second roll: ";
+                    std::cin >> second;
+                    game.roll(playerName, second);
+                    rollCount++;
+                }
 
                 if (first == 10 || (first + second) == 10) {
                     std::cout << "Bonus roll for strike or spare: ";
