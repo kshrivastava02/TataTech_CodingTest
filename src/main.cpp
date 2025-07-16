@@ -2,6 +2,23 @@
 #include <string>
 #include <vector>
 #include "BowlingGame.h"
+#include <limits>
+
+int getValidRoll(const std::string& promt, int max = 10) {
+    int roll;
+    while (true) {
+        std::cout << promt;
+        std::cin >> roll;
+
+        if (std::cin.fail() || roll < 0 || roll > max) {
+            std::cout << "Invalid input, please enter a number between 0 and " << max << ".\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        } else {
+            return roll;
+        }
+    }
+}
 
 int main() {
     BowlingGame game;
@@ -20,13 +37,7 @@ int main() {
             std::cout << "\nFrame " << frame << std::endl;
 
             int first = 0, second = 0, third = 0;
-            do {
-                if (first <= 10)
-                    std::cout << "Enter first roll: ";
-                else
-                    std::cout << "Invalid Input! Number of pins cannot exceed 10.\nEnter first roll: ";
-                std::cin >> first;
-            } while (first > 10);
+            first = getValidRoll("Enter first roll: ", 10);
             game.roll(playerName, first);
             rollCount++;
 
@@ -34,13 +45,7 @@ int main() {
                 if (first == 10) {
                     std::cout << "Strike! Moving to next frame." << std::endl;
                 } else {
-                    do {
-                        if ((first + second) <= 10)
-                            std::cout << "Enter second roll: ";
-                        else
-                            std::cout << "Total sum of a frame cannot be more than 10.\nEnter second roll: ";
-                        std::cin >> second;
-                    } while((first + second) > 10);
+                    second = getValidRoll("Enter second roll: ", 10-first);
                     game.roll(playerName, second);
                     rollCount++;
                 }
@@ -49,15 +54,13 @@ int main() {
                 if (first == 10) {
                     std::cout << "Strike! Moving to the bonus roll!\n";
                 } else {
-                    std::cout << "Enter second roll: ";
-                    std::cin >> second;
+                    second = getValidRoll("Enter second roll: ", 10-first);
                     game.roll(playerName, second);
                     rollCount++;
                 }
 
                 if (first == 10 || (first + second) == 10) {
-                    std::cout << "Bonus roll for strike or spare: ";
-                    std::cin >> third;
+                    third = getValidRoll("Bonus roll for strike or spare: ");
                     game.roll(playerName, third);
                     rollCount++;
                 }
